@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>위고비 vs 마운자로 — 나에게 맞는 약은?</title>
+<title>위고비 vs 마운자로 — 체크리스트로 알아보기</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; }
@@ -283,9 +283,9 @@ const questions = [
 
 const results = {
   wegovy: {
-    tag: '위고비 추천 타입', tagClass: 'tag-wegovy',
-    name: '위고비가 더 잘 맞을 것 같아요',
-    why: '혈당보다 식욕 조절과 체중 감량 자체가 주된 목표이고, GLP-1 계열을 처음 시작하는 분께 위고비(세마글루타이드)가 잘 맞는 경향이 있어요.',
+    tag: '위고비 해당 가능성 높음', tagClass: 'tag-wegovy',
+    name: '위고비에 더 해당되는 상태예요',
+    why: '체크하신 항목을 보면 혈당보다 식욕 조절과 체중 감량이 주된 목표인 경우로, 위고비(세마글루타이드)에 해당하는 패턴이에요. 단, 정확한 처방은 반드시 전문의와 상담이 필요해요.',
     reasons: [
       '식욕 억제 효과가 뛰어나 초기 적응이 수월해요',
       '심혈관 질환 예방 효과가 임상으로 입증되어 있어요',
@@ -294,9 +294,9 @@ const results = {
     ]
   },
   mounjaro: {
-    tag: '마운자로 추천 타입', tagClass: 'tag-mounjaro',
-    name: '마운자로가 더 잘 맞을 것 같아요',
-    why: '혈당 이상, 대사 이상, 또는 이전 GLP-1 약물 경험이 있는 분께 마운자로(티르제파타이드)가 더 강력한 효과를 기대할 수 있어요.',
+    tag: '마운자로 해당 가능성 높음', tagClass: 'tag-mounjaro',
+    name: '마운자로에 더 해당되는 상태예요',
+    why: '체크하신 항목을 보면 혈당 이상, 대사 이상, 또는 이전 GLP-1 약물 경험이 있는 경우로, 마운자로(티르제파타이드)에 해당하는 패턴이에요. 단, 정확한 처방은 반드시 전문의와 상담이 필요해요.',
     reasons: [
       'GIP+GLP-1 이중 작용으로 혈당·체중을 동시에 조절해요',
       '삭센다 효과가 부족했던 분께 더 강한 감량 효과가 있어요',
@@ -305,9 +305,9 @@ const results = {
     ]
   },
   both: {
-    tag: '두 약 모두 가능', tagClass: 'tag-both',
-    name: '두 가지 모두 적합할 수 있어요',
-    why: '체크하신 항목 기준으로 위고비와 마운자로 모두 고려할 수 있는 조건이에요. 현재 혈당 수치와 체중 감량 목표에 따라 결정이 달라질 수 있어요.',
+    tag: '두 약 모두 해당 가능', tagClass: 'tag-both',
+    name: '두 가지 모두 해당될 수 있어요',
+    why: '체크하신 항목 기준으로 위고비와 마운자로 모두 해당될 수 있는 상태예요. 현재 혈당 수치와 체중 감량 목표에 따라 달라질 수 있으니 전문의 상담을 권장드려요.',
     reasons: [
       '혈당이 경계선이라면 마운자로가 더 유리해요',
       '순수 체중 관리 목적이라면 위고비도 충분해요',
@@ -332,9 +332,9 @@ function render() {
   const sel = answers[cur];
   const pct = Math.round((cur / questions.length) * 100);
   document.getElementById('app').innerHTML = `
-    <div class="badge">💊 나에게 맞는 약 찾기</div>
-    <p class="quiz-title">위고비 vs 마운자로<br>어느 쪽이 나에게 맞을까?</p>
-    <p class="quiz-sub">5가지 질문에 답하면 약사가 설계한 기준으로<br>당신에게 더 잘 맞는 약을 알려드려요.</p>
+    <div class="badge">📋 체크리스트 기반 분석</div>
+    <p class="quiz-title">위고비 vs 마운자로<br>나의 상태로 알아보기</p>
+    <p class="quiz-sub">5가지 항목을 체크하면 내 상태에 따라<br>어떤 약이 더 해당되는지 분석해드려요.</p>
     <div class="progress-wrap"><div class="progress-fill" style="width:${pct}%"></div></div>
     <p class="step-label">질문 ${cur + 1} / ${questions.length}</p>
     <p class="q-text">${q.text}</p>
@@ -377,7 +377,7 @@ function showResult() {
   const mP = Math.min(100, Math.round(scores.mounjaro / Math.max(total,1) * 100));
   document.getElementById('app').innerHTML = `
     <div class="badge">✅ 분석 완료</div>
-    <p class="quiz-title" style="margin-bottom:1.25rem;">당신의 결과가 나왔어요</p>
+    <p class="quiz-title" style="margin-bottom:1.25rem;">체크리스트 결과가 나왔어요</p>
     <div class="score-row">
       <div class="score-box">
         <div class="score-box-name">위고비 점수</div>
@@ -403,9 +403,8 @@ function showResult() {
       <p class="cta-desc">이 결과는 참고용이에요. 혈액검사 결과와<br>현재 복용 약물에 따라 달라질 수 있어요.</p>
       <a class="cta-btn" href="#">상담 예약하기 →</a>
     </div>
-    <p class="disclaimer">* 이 자료는 의료 처방을 대체하지 않습니다. 반드시 전문의와 상담 후 처방받으세요.</p>
+    <p class="disclaimer">* 이 체크리스트는 의료 처방을 대체하지 않습니다.<br>결과는 참고용이며, 반드시 전문의와 상담 후 처방받으세요.</p>
     <button class="restart-btn" onclick="restart()">↺ 다시 해보기</button>
-    <p class="made-by">마케팅하는약사 제작</p>
   `;
 }
 
