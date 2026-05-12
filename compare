@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>위고비 vs 마운자로 — 차이점 비교</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: #f4f6f3;
+    color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem 4rem;
+  }
+  .wrap {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem 1.75rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e6f4ee;
+    color: #1d7a54;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 99px;
+    margin-bottom: 1.1rem;
+  }
+  .main-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #111;
+    margin-bottom: 0.4rem;
+  }
+  .main-sub {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1.75rem;
+  }
+
+  /* 헤더 비교 */
+  .drug-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .drug-card {
+    border-radius: 14px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .drug-card.wegovy { background: #ddeeff; }
+  .drug-card.mounjaro { background: #fde8df; }
+  .drug-name {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .drug-card.wegovy .drug-name { color: #1a4f8a; }
+  .drug-card.mounjaro .drug-name { color: #8a3010; }
+  .drug-generic {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .drug-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+    display: inline-block;
+  }
+  .drug-card.wegovy .drug-pill { background: #b8d8f8; color: #1a4f8a; }
+  .drug-card.mounjaro .drug-pill { background: #f8c4a8; color: #8a3010; }
+
+  /* 비교 항목 */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .compare-item {
+    border: 1.5px solid #f0f0f0;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .compare-topic {
+    background: #f8f8f8;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    border-bottom: 1.5px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .compare-topic .icon { font-size: 15px; }
+  .compare-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .compare-col {
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333;
+  }
+  .compare-col:first-child {
+    border-right: 1.5px solid #f0f0f0;
+    background: #f8fbff;
+  }
+  .compare-col:last-child {
+    background: #fffaf8;
+  }
+  .col-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .col-tag.w { background: #ddeeff; color: #1a4f8a; }
+  .col-tag.m { background: #fde8df; color: #8a3010; }
+  .col-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 3px;
+  }
+  .col-desc {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+  }
+  .highlight { color: #1d9e75; font-weight: 700; }
+  .highlight-o { color: #d85a30; font-weight: 700; }
+
+  /* 핵심 포인트 카드 */
+  .point-card {
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .point-card.blue { background: #eef5ff; }
+  .point-card.orange { background: #fff4ef; }
+  .point-card.green { background: #edfaf4; }
+  .point-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .point-card.blue .point-num { background: #b8d8f8; color: #1a4f8a; }
+  .point-card.orange .point-num { background: #f8c4a8; color: #8a3010; }
+  .point-card.green .point-num { background: #9fe1cb; color: #0f6e56; }
+  .point-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 4px; }
+  .point-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+  /* CTA */
+  .cta-box {
+    background: linear-gradient(135deg, #e6f7f0 0%, #d0f0e4 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .cta-title { font-size: 15px; font-weight: 700; color: #0f5c3c; margin-bottom: 0.4rem; }
+  .cta-desc { font-size: 13px; color: #1d7a54; line-height: 1.6; margin-bottom: 1rem; }
+  .cta-btn {
+    display: inline-block;
+    background: #1d9e75;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 13px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .cta-btn:hover { background: #0f6e56; }
+  .disclaimer {
+    font-size: 11px;
+    color: #bbb;
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="badge">📊 차이점 비교 정리</div>
+  <p class="main-title">위고비 vs 마운자로<br>뭐가 어떻게 다를까?</p>
+  <p class="main-sub">작용 기전부터 감량 효과까지<br>핵심 차이점만 정리했어요.</p>
+
+  <!-- 약 헤더 -->
+  <div class="drug-header">
+    <div class="drug-card wegovy">
+      <div class="drug-name">위고비</div>
+      <div class="drug-generic">세마글루타이드</div>
+      <span class="drug-pill">GLP-1 단일</span>
+    </div>
+    <div class="drug-card mounjaro">
+      <div class="drug-name">마운자로</div>
+      <div class="drug-generic">티르제파타이드</div>
+      <span class="drug-pill">GLP-1 + GIP 이중</span>
+    </div>
+  </div>
+
+  <p class="section-label">핵심 비교</p>
+
+  <!-- 작용기전 -->
+  <div class="compare-item">
+    <div class="compare-topic"><span class="icon">🔬</span> 작용 기전</div>
+    <div class="compare-cols">
+      <div class="compare-col">
+        <span class="col-tag w">위고비</span>
+        <div class="col-val">문 1개</div>
+        <div class="col-desc">GLP-1 수용체<br>하나만 자극해요</div>
+      </div>
+      <div class="compare-col">
+        <span class="col-tag m">마운자로</span>
+        <div class="col-val">문 2개</div>
+        <div class="col-desc">GLP-1 + GIP<br>두 수용체 동시 자극</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 체중 감량 -->
+  <div class="compare-item">
+    <div class="compare-topic"><span class="icon">⚖️</span> 평균 체중 감량</div>
+    <div class="compare-cols">
+      <div class="compare-col">
+        <span class="col-tag w">위고비</span>
+        <div class="col-val"><span class="highlight">약 14.9%</span></div>
+        <div class="col-desc">임상 연구 기준<br>평균 감량 수치</div>
+      </div>
+      <div class="compare-col">
+        <span class="col-tag m">마운자로</span>
+        <div class="col-val"><span class="highlight-o">최대 22.5%</span></div>
+        <div class="col-desc">임상 연구 기준<br>최고 감량 수치</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 혈당 조절 -->
+  <div class="compare-item">
+    <div class="compare-topic"><span class="icon">🩸</span> 혈당 조절</div>
+    <div class="compare-cols">
+      <div class="compare-col">
+        <span class="col-tag w">위고비</span>
+        <div class="col-val">보통</div>
+        <div class="col-desc">혈당 정상인 분도<br>사용 가능</div>
+      </div>
+      <div class="compare-col">
+        <span class="col-tag m">마운자로</span>
+        <div class="col-val">강력</div>
+        <div class="col-desc">당뇨·전당뇨<br>동반 시 더 유리</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 부작용 -->
+  <div class="compare-item">
+    <div class="compare-topic"><span class="icon">⚠️</span> 주요 부작용</div>
+    <div class="compare-cols">
+      <div class="compare-col">
+        <span class="col-tag w">위고비</span>
+        <div class="col-val">구역·소화불량</div>
+        <div class="col-desc">초기 적응 기간에<br>주로 나타나요</div>
+      </div>
+      <div class="compare-col">
+        <span class="col-tag m">마운자로</span>
+        <div class="col-val">유사하나 개인차↑</div>
+        <div class="col-desc">사람마다 달라<br>상담이 중요해요</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">이런 분께 해당돼요</p>
+
+  <div class="point-card blue">
+    <div class="point-num">W</div>
+    <div>
+      <div class="point-title">위고비에 더 해당되는 경우</div>
+      <div class="point-desc">혈당은 정상이고 식욕 조절이 주된 목표 · GLP-1 계열 처음 시작 · 심혈관 건강도 함께 챙기고 싶은 경우</div>
+    </div>
+  </div>
+
+  <div class="point-card orange">
+    <div class="point-num">M</div>
+    <div>
+      <div class="point-title">마운자로에 더 해당되는 경우</div>
+      <div class="point-desc">당뇨·전당뇨·인슐린 저항성 있음 · 삭센다 효과 부족했던 경험 · 더 높은 감량 효과가 필요한 경우</div>
+    </div>
+  </div>
+
+  <div class="point-card green">
+    <div class="point-num">!</div>
+    <div>
+      <div class="point-title">공통 주의사항</div>
+      <div class="point-desc">두 약 모두 처방약이에요. 위 내용은 참고용이며 반드시 혈액검사 결과와 복용 약물을 고려한 전문의 상담이 필요해요.</div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <p class="cta-title">나에게 더 해당되는 약이 궁금하다면?</p>
+    <p class="cta-desc">체크리스트로 내 상태를 확인해보세요.<br>결과에 따라 어떤 약이 더 해당되는지 알 수 있어요.</p>
+    <a class="cta-btn" href="https://naver.me/5ajzcZ8C" target="_blank">더 알아보기 →</a>
+  </div>
+
+  <p class="disclaimer">* 이 자료는 의료 처방을 대체하지 않습니다.<br>반드시 전문의와 상담 후 처방받으세요.</p>
+
+</div>
+</body>
+</html>
